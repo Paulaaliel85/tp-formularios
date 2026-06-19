@@ -1,12 +1,13 @@
 const express = require("express");
+const formularioRoutes = require("./src/routes/formularioRoute.js");
+const inspeccionRoutes = require("./src/routes/inspeccionRoute.js");
 
 const app = express();
 
 app.use(express.json());
 
-const formularioRoutes = require("./src/routes/formularioRoute.js");
-
 app.use("/formularios", formularioRoutes);
+app.use("/inspecciones", inspeccionRoutes);
 
 app.get("/", (req, res) => {
   res.json({
@@ -17,5 +18,5 @@ app.get("/", (req, res) => {
 const PORT = 3000;
 
 app.listen(PORT, () => {
-  console.log(`Servidor ejecutándose en puerto ${PORT}`);
+  console.log(`Servidor ejecutándose en puerto 3000`);
 });
