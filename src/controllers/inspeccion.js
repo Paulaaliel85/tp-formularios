@@ -3,23 +3,23 @@ const formularios = require("../data/formularios");
 
 const crearInspeccion = (req, res) => {
   const { empresa, usuario, formularioId } = req.body;
-
+// Validamos campos obligatorios de datos de la empresa 
   if (!empresa || !usuario || !formularioId) {
     return res.status(400).json({
       mensaje: "Datos incompletos"
     });
   }
-
+// Verificamos que el formulario exista en el sistema
   const formulario = formularios.find(
     f => f.id === Number(formularioId)
   );
-
+// En caso de que no existe se muestra el mensaje "Formulario no encontrado"
   if (!formulario) {
     return res.status(404).json({
       mensaje: "Formulario no encontrado"
     });
   }
-
+// Registra la inspección con las preguntas respondidas 
   const nuevaInspeccion = {
     id: inspecciones.length + 1,
     ...req.body

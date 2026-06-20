@@ -2,12 +2,13 @@ const formularios = require("../data/formularios");
 
 const crearFormulario = (req, res) => {
   const { titulo , cabecera} = req.body;
-
+// Evitamos que se guarden formularios vacios 
 if(!titulo || !cabecera) {
   return res.status(400).json({
     mensaje: "Titulo y Cabecera son obligatorios"
   });
 }
+// Aca capturamos de forma dinamica el array de categprias y preguntas ordenadas
   const nuevoFormulario = {
     id: formularios.length + 1,
     ...req.body
@@ -47,8 +48,14 @@ const actualizarFormulario = (req, res) => {
       mensaje:"Formulario no encontrado"
     });
   }
+// Al crear el formulario por primera vez comenzara con REVISION: 1 
+// Al actualizarlo use la variable revisionActual sumandole 1 para marcar que el formulario anterios quedo obsoleto.
+  const revisionActual = formularios[index].revision || 1;
 
-  formularios[index] = {id, ...req.body};
+  formularios[index] = {id, 
+    ...req.body,
+  revision: revisionActual + 1
+};
   res.json({
     mensaje: "Formulario actualizado con exito" ,
     formulario: formularios[index]
@@ -63,10 +70,9 @@ const eliminarFormulario = (req, res) => {
       mensaje: "Formulario no encontrado"
     });
   }
-  // Eliminamos el formulario de array 
   formularios.splice(index, 1)
   res.json({
-    mensaje: "Formulario elimanado con exito"
+    mensaje: "Formulario eliminado con exito"
   });
 
 };

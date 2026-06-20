@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 
-
 const {
   crearFormulario,
   obtenerFormularios,
@@ -11,7 +10,6 @@ const {
 } = require("../controllers/formulario.js");
 
 
-// rutas
 router.post("/", crearFormulario);
 router.get("/:id", obtenerFormulariosPorId);
 router.get("/", obtenerFormularios);
