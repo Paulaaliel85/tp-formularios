@@ -38,9 +38,45 @@ const obtenerFormulariosPorId = (req, res) => {
     res.json(formulario);
 };
 
+const actualizarFormulario = (req, res) => {
+  const id = Number(req.params.id);
+  const index = formularios.findIndex(f => f.id === id);
+
+  if (index === -1) {
+    return res.status(404).json({
+      mensaje:"Formulario no encontrado"
+    });
+  }
+
+  formularios[index] = {id, ...req.body};
+  res.json({
+    mensaje: "Formulario actualizado con exito" ,
+    formulario: formularios[index]
+  });
+}
+const eliminarFormulario = (req, res) => {
+  const id = Number(req.params.id);
+  const index = formularios.findIndex(f => f.id === id);
+
+  if (index === -1 ) {
+    return res.status(404).json ({
+      mensaje: "Formulario no encontrado"
+    });
+  }
+  // Eliminamos el formulario de array 
+  formularios.splice(index, 1)
+  res.json({
+    mensaje: "Formulario elimanado con exito"
+  });
+
+};
+
+
 module.exports = {
     crearFormulario,
     obtenerFormularios,
     obtenerFormulariosPorId,
+    actualizarFormulario,
+    eliminarFormulario,
 };
 

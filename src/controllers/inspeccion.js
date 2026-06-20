@@ -76,8 +76,43 @@ const obtenerResumenInspeccion = (req, res) => {
   });
 };
 
+const actualizarInspeccion = (req, res) => {
+  const id = Number(req.params.id);
+  const index = inspecciones.findIndex(i => i.id === id);
+
+  if (index === -1) {
+    return res.status(404).json({
+       mensaje: "Inspección no encontrada" 
+      });
+  }
+
+  inspecciones[index] = { id, ...req.body };
+  res.json({ 
+    mensaje: "Inspección actualizada con éxito",
+     inspeccion: inspecciones[index] 
+    });
+};
+
+const eliminarInspeccion = (req, res) => {
+  const id = Number(req.params.id);
+  const index = inspecciones.findIndex(i => i.id === id);
+
+  if (index === -1) {
+    return res.status(404).json({
+       mensaje: "Inspección no encontrada" 
+      });
+  }
+
+  inspecciones.splice(index, 1);
+  res.json({ 
+    mensaje: "Inspección eliminada con éxito" 
+  });
+};
+
 module.exports = {
   crearInspeccion,
   obtenerInspeccionPorId,
   obtenerResumenInspeccion,
+  actualizarInspeccion,
+  eliminarInspeccion
 };
