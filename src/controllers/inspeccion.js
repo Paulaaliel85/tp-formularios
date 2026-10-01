@@ -1,14 +1,6 @@
 const AppDataSource = require("../config/database");
 const { InspeccionEntity, FormularioEntity } = require("../entities/schema");
 
-<<<<<<< Updated upstream
-const crearInspeccion = (req, res) => {
-  const { empresa, usuario, formularioId } = req.body;
-// Validamos campos obligatorios de datos de la empresa 
-  if (!empresa || !usuario || !formularioId) {
-    return res.status(400).json({
-      mensaje: "Datos incompletos"
-=======
 const inspeccionRepository = AppDataSource.getRepository(InspeccionEntity);
 const formularioRepository = AppDataSource.getRepository(FormularioEntity);
 
@@ -26,7 +18,6 @@ const crearInspeccion = async (req, res) => {
       usuario,
       formularioId: Number(formularioId),
       respuestas
->>>>>>> Stashed changes
     });
 
     const resultado = await inspeccionRepository.save(nuevaInspeccion);
@@ -34,27 +25,6 @@ const crearInspeccion = async (req, res) => {
   } catch (error) {
     return res.status(500).json({ mensaje: "Error al crear inspección", error: error.message });
   }
-<<<<<<< Updated upstream
-// Verificamos que el formulario exista en el sistema
-  const formulario = formularios.find(
-    f => f.id === Number(formularioId)
-  );
-// En caso de que no existe se muestra el mensaje "Formulario no encontrado"
-  if (!formulario) {
-    return res.status(404).json({
-      mensaje: "Formulario no encontrado"
-    });
-  }
-// Registra la inspección con las preguntas respondidas 
-  const nuevaInspeccion = {
-    id: inspecciones.length + 1,
-    ...req.body
-  };
-
-  inspecciones.push(nuevaInspeccion);
-  res.status(201).json(nuevaInspeccion);
-=======
->>>>>>> Stashed changes
 };
 
 const obtenerInspeccionPorId = async (req, res) => {
@@ -139,39 +109,6 @@ const eliminarInspeccion = async (req, res) => {
   } catch (error) {
     return res.status(500).json({ mensaje: "Error al eliminar la inspección", error: error.message });
   }
-};
-
-const actualizarInspeccion = (req, res) => {
-  const id = Number(req.params.id);
-  const index = inspecciones.findIndex(i => i.id === id);
-
-  if (index === -1) {
-    return res.status(404).json({
-       mensaje: "Inspección no encontrada" 
-      });
-  }
-
-  inspecciones[index] = { id, ...req.body };
-  res.json({ 
-    mensaje: "Inspección actualizada con éxito",
-     inspeccion: inspecciones[index] 
-    });
-};
-
-const eliminarInspeccion = (req, res) => {
-  const id = Number(req.params.id);
-  const index = inspecciones.findIndex(i => i.id === id);
-
-  if (index === -1) {
-    return res.status(404).json({
-       mensaje: "Inspección no encontrada" 
-      });
-  }
-
-  inspecciones.splice(index, 1);
-  res.json({ 
-    mensaje: "Inspección eliminada con éxito" 
-  });
 };
 
 module.exports = {
